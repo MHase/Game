@@ -14,25 +14,41 @@ public class Game extends Canvas {
     private Thread thread;
     private boolean running = false;
 
-    private Random r = new Random();
-    private Handler handler = new Handler();
+    private Random r;
+    private Handler handler;
     private HUD hud = new HUD();
-    private Spawn spawner = new Spawn(handler, hud);
+    private Spawn spawner;
+
+    private Menu menu;
+
+    public enum STATE {
+        Menu,
+        Help,
+        Game,
+        End
+    }
+
+    public static STATE gameState = STATE.Menu;
 
     public Game() {
-        //handler = new Handler();
-        //r = new Random();
+        handler = new Handler();
+        hud = new HUD();
+        menu = new Menu(this, handler, hud);
+        r = new Random();
         this.addKeyListener(new KeyInput(handler));
+        this.addMouseListener(menu);
 
+        spawner = new Spawn(handler, hud);
 
-        //hud = new HUD();
-
-        handler.addObject(new Player(WIDTH / 2 - 32, HEIGHT / 2 - 32, ID.Player, handler)); //tworzenie/rysowanie gracza
-
-        //handler.addObject(new BasicEnemy(r.nextInt(WIDTH-50), r.nextInt(HEIGHT-50), ID.BasicEnemy, handler));
+        if(gameState == STATE.Game) {
+            //handler.addObject(new Player(WIDTH / 2 - 32, HEIGHT / 2 - 32, ID.Player, handler)); //tworzenie/rysowanie gracza
+        } else {
+            for(int  i =0; i < 20; i ++) {
+                handler.addObject(new MenuParticle(r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.MenuParticle, handler));
+            }
+        }
 
         new Window(WIDTH, HEIGHT, "Let's build a game!", this);
-
     }
 
     public synchronized void start() {
@@ -83,8 +99,20 @@ public class Game extends Canvas {
 
     private void tick() {
         handler.tick();
-        hud.tick();
-        spawner.tick();
+        if(gameState == STATE.Game){
+            hud.tick();
+            spawner.tick();
+
+            if(hud.HEALTH <= 0) {
+                hud.HEALTH = 100;
+                gameState = STATE.End;
+                handler.clearEnemies();
+                for(int  i =0; i < 20; i ++)
+                    handler.addObject(new MenuParticle(r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.MenuParticle, handler));
+            }
+        } else if(gameState == STATE.Menu || gameState == STATE.End) {
+            menu.tick();
+        }
     }
 
     private void render() {
@@ -102,7 +130,12 @@ public class Game extends Canvas {
 
         handler.render(g); // generuje gracza
 
-        hud.render(g);
+        if(gameState == STATE.Game) {
+           hud.render(g);
+        } else if(gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End) {
+            menu.render(g);
+        }
+
 
         g.dispose();
         bs.show();

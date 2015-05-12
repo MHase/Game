@@ -10,9 +10,11 @@ import java.awt.event.KeyEvent;
 public class KeyInput extends KeyAdapter {
 
     private Handler handler;
+    //private Game game;
     private boolean[] keyDown = new boolean[4];
 
     public KeyInput(Handler handler) {
+        //this.game = game;
         this.handler = handler;
         keyDown[0] = false;
         keyDown[1] = false;
