@@ -18,6 +18,7 @@ public class Game extends Canvas {
     private Handler handler;
     private HUD hud = new HUD();
     private Spawn spawner;
+    private BossEnemy Boss;
 
     private Menu menu;
 
@@ -102,6 +103,8 @@ public class Game extends Canvas {
         if(gameState == STATE.Game){
             hud.tick();
             spawner.tick();
+
+           // if(BossEnemy.getHealth < = 0)
 
             if(hud.HEALTH <= 0) {
                 hud.HEALTH = 100;

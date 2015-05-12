@@ -1,7 +1,6 @@
 package Game;
 
 import java.awt.*;
-import java.util.Random;
 
 /**
  * Created by Maciej on 2015-05-06.
@@ -40,6 +39,12 @@ public class Player extends GameObject {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     //collision code
                     HUD.HEALTH -= 2;
+                }
+            }
+            if (tempObject.getId() == ID.BossEnemy) { //kolizja z BasicEnemy, czyli tempObject jest naszym BasicEnemy
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    //collision code
+                    HUD.HEALTH -= 100;
                 }
             }
 

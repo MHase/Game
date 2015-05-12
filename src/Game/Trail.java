@@ -1,7 +1,5 @@
 package Game;
 
-import com.sun.prism.paint.Gradient;
-
 import java.awt.*;
 
 /**

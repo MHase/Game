@@ -50,8 +50,22 @@ public class BossEnemy extends GameObject {
         handler.addObject(new Trail((int)x, (int)y, ID.Trail, Color.cyan, 96, 96, 0.1f, handler));
     }
 
+    /*private void collision() { //kolizja gracza z czymœ innym
+        for (int i = 0; i < handler.object.size(); i++) {
+            GameObject tempObject = handler.object.get(i); //zbiera wszystkie objecty z gry
+
+            if (tempObject.getId() == ID.PlayerBullets) { //kolizja z pociskiem gracza
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    //collision code
+                    HEALTH -= 10;
+                }
+            }
+        }
+    }*/
+
     public void render(Graphics g) {
         g.setColor(Color.cyan);
         g.fillRect((int)x, (int)y, 96, 96);
     }
+
 }

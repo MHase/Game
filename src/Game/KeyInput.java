@@ -1,6 +1,5 @@
 package Game;
 
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -31,19 +30,34 @@ public class KeyInput extends KeyAdapter {
             GameObject tempObject = handler.object.get(i);
 
 
-            if(tempObject.getId() == ID.Player) {
+            if (tempObject.getId() == ID.Player) {
                 //key event for player 1
 
-                if(key == KeyEvent.VK_W) { tempObject.setVelY(-vel); keyDown[0] = true; }
-                if(key == KeyEvent.VK_S) { tempObject.setVelY(vel);  keyDown[1] = true; }
-                if(key == KeyEvent.VK_A) { tempObject.setVelX(-vel);  keyDown[2] = true; }
-                if(key == KeyEvent.VK_D) { tempObject.setVelX(vel);  keyDown[3] = true; }
+                if (key == KeyEvent.VK_W) {
+                    tempObject.setVelY(-vel);
+                    keyDown[0] = true;
+                }
+                if (key == KeyEvent.VK_S) {
+                    tempObject.setVelY(vel);
+                    keyDown[1] = true;
+                }
+                if (key == KeyEvent.VK_A) {
+                    tempObject.setVelX(-vel);
+                    keyDown[2] = true;
+                }
+                if (key == KeyEvent.VK_D) {
+                    tempObject.setVelX(vel);
+                    keyDown[3] = true;
+                }
+                if (key == KeyEvent.VK_SPACE) {
+                    handler.addObject(new PlayerBullets((int) tempObject.getX() + 16, (int) tempObject.getY(), ID.PlayerBullets, handler));
+                }
+
             }
 
+            if (key == KeyEvent.VK_ESCAPE) System.exit(1);
+
         }
-
-        if(key == KeyEvent.VK_ESCAPE) System.exit(1);
-
     }
 
     public void keyReleased(KeyEvent e) {
